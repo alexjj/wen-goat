@@ -49,7 +49,7 @@ def plot_progress(data, avg_points_per_week):
     st.pyplot(plt)
 
     days_remaining = (goal_date - datetime.now()).days
-    st.write(f"At your current rate you'll be mountain goat by {goal_date.strftime('%d %B %Y')}, or {days_remaining} days away. 🥾")
+    st.write(f"At your selected rate you'll be mountain goat by {goal_date.strftime('%d %B %Y')}, or {days_remaining} days away. Get climbin! 🥾")
 
 callsign = st.text_input("Enter your callsign:").upper()
 

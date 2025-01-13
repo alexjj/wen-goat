@@ -71,7 +71,7 @@ if callsign:
                 target_date = st.date_input("Select your target date to reach Mountain Goat:", format="DD/MM/YYYY")
                 if target_date:
                     today = datetime.now().date()
-                    weeks_remaining = max((target_date - today).days / 7, 0.01)
+                    weeks_remaining = max((target_date - today).days / 7, 1)
                     points_needed = 1000 - total_points
                     required_points_per_week = points_needed / weeks_remaining
                     st.write(f"You need to earn {required_points_per_week:.1f} points per week to reach Mountain Goat by {target_date.strftime('%d %B %Y')}. Better get a move on!")

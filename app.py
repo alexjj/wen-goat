@@ -66,6 +66,15 @@ if callsign:
                 st.write(f"{callsign}, you have {total_points} points, only {1000 - total_points} to go!")
                 avg_points_per_week = st.number_input("Average points per week:", min_value=1, step=1, value=5)
                 plot_progress(activations, avg_points_per_week)
+
+                st.subheader("want goat now 🏔️")
+                target_date = st.date_input("Select your target date to reach Mountain Goat:", format="DD/MM/YYYY")
+                if target_date:
+                    today = datetime.now().date()
+                    weeks_remaining = max((target_date - today).days / 7, 0.01)
+                    points_needed = 1000 - total_points
+                    required_points_per_week = points_needed / weeks_remaining
+                    st.write(f"You need to earn {required_points_per_week:.1f} points per week to reach Mountain Goat by {target_date.strftime('%d %B %Y')}. Better get a move on!")
         else:
             st.error("No activation data found.")
     else:

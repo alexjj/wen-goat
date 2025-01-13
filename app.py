@@ -60,9 +60,12 @@ if callsign:
         if activations:
             activations_sorted = sorted(activations, key=lambda x: x['ActivationDate'])
             total_points = activations_sorted[-1]['Total'] if activations_sorted else 0
-            st.write(f"{callsign}, you have {total_points} points, only {1000 - total_points} to go!")
-            avg_points_per_week = st.number_input("Average points per week:", min_value=1, step=1, value=5)
-            plot_progress(activations, avg_points_per_week)
+            if total_points >= 1000:
+                st.success("You're already a mountain goat. Stop wasting my free resources and go climb a mountain.")
+            else:
+                st.write(f"{callsign}, you have {total_points} points, only {1000 - total_points} to go!")
+                avg_points_per_week = st.number_input("Average points per week:", min_value=1, step=1, value=5)
+                plot_progress(activations, avg_points_per_week)
         else:
             st.error("No activation data found.")
     else:

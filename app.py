@@ -65,7 +65,7 @@ if callsign:
                 st.success("You're already a mountain goat. Stop wasting my free resources and go climb a mountain.")
             else:
                 st.write(f"{callsign}, you have {total_points} points, only {1000 - total_points} to go!")
-                avg_points_per_week = st.number_input("Average points per week:", min_value=0, value=5, format="%0.1f")
+                avg_points_per_week = st.number_input("Average points per week:", min_value=0.0, value=5.0, format="%0.1f")
                 plot_progress(activations, avg_points_per_week)
 
                 st.subheader("want goat now 🏔️")

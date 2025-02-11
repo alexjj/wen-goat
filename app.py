@@ -72,7 +72,7 @@ if callsign:
             plot_progress(activations, avg_points_per_week, next_target)
 
             st.subheader("Want goat now 🏔️")
-            target_date = st.date_input("Select your target date to reach the next goat:", format="DD/MM/YYYY", value=None)
+            target_date = st.date_input("Select your target date to reach the next goat:", format="DD/MM/YYYY", value=None, min_value="today")
             if target_date:
                 today = datetime.now().date()
                 weeks_remaining = max((target_date - today).days / 7, 1)

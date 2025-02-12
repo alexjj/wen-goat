@@ -30,7 +30,7 @@ def plot_progress(data, avg_points_per_week, target_points):
     df['CumulativePoints'] = df['Total']
 
     plt.figure(figsize=(10, 6))
-    plt.plot(df['ActivationDate'], df['CumulativePoints'], label='Current Progress')
+    plt.plot(df['ActivationDate'], df['CumulativePoints'], label='Current Progress', color='blue')
 
     # Extrapolation
     first_date = df['ActivationDate'].iloc[0]
@@ -51,9 +51,16 @@ def plot_progress(data, avg_points_per_week, target_points):
     future_dates = pd.date_range(start=datetime.now(), periods=int(weeks_needed) + 1, freq='W')
     future_points = [last_total + avg_points_per_week_calc * i for i in range(len(future_dates))]
     plt.plot(future_dates, future_points, linestyle=':', color='orange', label='Projected Progress (linear)')
+    
+    # Connect last_date of activation with nowdate
+    plt.hlines(y=last_total,xmin=last_date,xmax=datetime.now(), color='blue')
 
+    ylabels = []
     for milestone in range(1000, next_target + 1000, 1000):
         plt.axhline(milestone, color='grey', linestyle=':', alpha=0.5)
+        ylabels.append(milestone)
+    plt.yticks(ylabels) #  Only full MG labels on y-axis
+
     plt.axhline(target_points, color='green', linestyle=':', label=f'Next Milestone ({target_points} pts)')
     plt.vlines(x= datetime.now(),ymin=0,ymax=target_points, color='grey', linestyle=':', alpha=0.25) # Mark the nowdate
     plt.xlabel('Date')

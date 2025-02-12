@@ -63,7 +63,7 @@ def plot_progress(data, avg_points_per_week, target_points):
     st.pyplot(plt)
 
     days_remaining = (goal_date - datetime.now()).days
-    st.write(f"You have been activating for {weeks_of_activating} with an average of {avg_points_per_week_calc:.2f} points per week.")
+    st.write(f"You have been activating for {weeks_of_activating} weeks with an average of {avg_points_per_week_calc:.2f} points per week.")
 
     st.write(f"At your selected rate you'll reach {target_points} points by {goal_date.strftime('%d %B %Y')}, or {days_remaining} days away. Keep climbing! 🥾")
 

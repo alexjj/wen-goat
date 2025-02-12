@@ -42,13 +42,13 @@ def plot_progress(data, avg_points_per_week, target_points):
 
     weeks_needed = max((target_points - last_total) / avg_points_per_week, 0)
     goal_date = last_date + timedelta(weeks=weeks_needed)
-    future_dates = pd.date_range(start=last_date, periods=int(weeks_needed) + 1, freq='W')
+    future_dates = pd.date_range(start=datetime.now(), periods=int(weeks_needed) + 1, freq='W')
     future_points = [last_total + avg_points_per_week * i for i in range(len(future_dates))]
     plt.plot(future_dates, future_points, linestyle='--', color='red', label='Planned Progress')
 
     weeks_needed = max((target_points - last_total) / avg_points_per_week_calc, 0)
     goal_date = last_date + timedelta(weeks=weeks_needed)
-    future_dates = pd.date_range(start=last_date, periods=int(weeks_needed) + 1, freq='W')
+    future_dates = pd.date_range(start=datetime.now(), periods=int(weeks_needed) + 1, freq='W')
     future_points = [last_total + avg_points_per_week_calc * i for i in range(len(future_dates))]
     plt.plot(future_dates, future_points, linestyle=':', color='orange', label='Projected Progress')
 

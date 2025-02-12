@@ -33,17 +33,29 @@ def plot_progress(data, avg_points_per_week, target_points):
     plt.plot(df['ActivationDate'], df['CumulativePoints'], label='Current Progress')
 
     # Extrapolation
+    first_date = df['ActivationDate'].iloc[0]
     last_date = df['ActivationDate'].iloc[-1]
     last_total = df['CumulativePoints'].iloc[-1]
+    
+    weeks_of_activating = (last_date-first_date).days//7
+    avg_points_per_week_calc = last_total / weeks_of_activating
+
     weeks_needed = max((target_points - last_total) / avg_points_per_week, 0)
     goal_date = last_date + timedelta(weeks=weeks_needed)
-    future_dates = pd.date_range(start=last_date, periods=int(weeks_needed) + 1, freq='W')
+    future_dates = pd.date_range(start=datetime.now(), periods=int(weeks_needed) + 1, freq='W')
     future_points = [last_total + avg_points_per_week * i for i in range(len(future_dates))]
-    plt.plot(future_dates, future_points, linestyle='--', color='red', label='Projected Progress')
+    plt.plot(future_dates, future_points, linestyle='--', color='red', label='Planned Progress')
+
+    weeks_needed = max((target_points - last_total) / avg_points_per_week_calc, 0)
+    goal_date = last_date + timedelta(weeks=weeks_needed)
+    future_dates = pd.date_range(start=datetime.now(), periods=int(weeks_needed) + 1, freq='W')
+    future_points = [last_total + avg_points_per_week_calc * i for i in range(len(future_dates))]
+    plt.plot(future_dates, future_points, linestyle=':', color='orange', label='Projected Progress')
 
     for milestone in range(1000, next_target + 1000, 1000):
         plt.axhline(milestone, color='grey', linestyle=':', alpha=0.5)
     plt.axhline(target_points, color='green', linestyle=':', label=f'Next Milestone ({target_points} pts)')
+    plt.vlines(x= datetime.now(),ymin=0,ymax=target_points, color='grey', linestyle=':', alpha=0.25) # Mark the nowdate
     plt.xlabel('Date')
     plt.ylabel('Cumulative Points')
     plt.legend()
@@ -51,6 +63,8 @@ def plot_progress(data, avg_points_per_week, target_points):
     st.pyplot(plt)
 
     days_remaining = (goal_date - datetime.now()).days
+    st.write(f"Your have been activating for {weeks_of_activating} with an average of {avg_points_per_week_calc:.2f} points per week.")
+
     st.write(f"At your selected rate you'll reach {target_points} points by {goal_date.strftime('%d %B %Y')}, or {days_remaining} days away. Keep climbing! 🥾")
 
 callsign = st.text_input("Enter your callsign:").upper()

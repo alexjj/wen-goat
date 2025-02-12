@@ -55,8 +55,12 @@ def plot_progress(data, avg_points_per_week, target_points):
     # Connect last_date of activation with nowdate
     plt.hlines(y=last_total,xmin=last_date,xmax=datetime.now(), color='blue')
 
+    ylabels = []
     for milestone in range(1000, next_target + 1000, 1000):
         plt.axhline(milestone, color='grey', linestyle=':', alpha=0.5)
+        ylabels.append(milestone)
+    plt.yticks(ylabels) #  Only full MG labels on y-axis
+
     plt.axhline(target_points, color='green', linestyle=':', label=f'Next Milestone ({target_points} pts)')
     plt.vlines(x= datetime.now(),ymin=0,ymax=target_points, color='grey', linestyle=':', alpha=0.25) # Mark the nowdate
     plt.xlabel('Date')

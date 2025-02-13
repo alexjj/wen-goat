@@ -59,7 +59,8 @@ def plot_progress(data, avg_points_per_week, target_points):
     for milestone in range(1000, next_target + 1000, 1000):
         plt.axhline(milestone, color='grey', linestyle=':', alpha=0.5)
         ylabels.append(milestone)
-    plt.yticks(ylabels) #  Only full MG labels on y-axis
+    if last_total > 2000: # Only force milestone labels over 2000 points
+        plt.yticks(ylabels)
 
     plt.axhline(target_points, color='green', linestyle=':', label=f'Next Milestone ({target_points} pts)')
     plt.vlines(x= datetime.now(),ymin=0,ymax=target_points, color='grey', linestyle=':', alpha=0.25) # Mark the nowdate

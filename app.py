@@ -4,7 +4,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 
-st.set_page_config(page_title="wen goat 🐐")
+st.set_page_config(page_title="wen goat 🐐", page_icon=":goat:")
 st.title("wen goat 🐐")
 
 @st.cache_data
@@ -36,7 +36,7 @@ def plot_progress(data, avg_points_per_week, target_points):
     first_date = df['ActivationDate'].iloc[0]
     last_date = df['ActivationDate'].iloc[-1]
     last_total = df['CumulativePoints'].iloc[-1]
-    
+
     weeks_of_activating = (last_date-first_date).days//7
     avg_points_per_week_calc = last_total / weeks_of_activating
 
@@ -51,7 +51,7 @@ def plot_progress(data, avg_points_per_week, target_points):
     future_dates = pd.date_range(start=datetime.now(), periods=int(weeks_needed) + 1, freq='W')
     future_points = [last_total + avg_points_per_week_calc * i for i in range(len(future_dates))]
     plt.plot(future_dates, future_points, linestyle=':', color='orange', label='Projected Progress (linear)')
-    
+
     # Connect last_date of activation with nowdate
     plt.hlines(y=last_total,xmin=last_date,xmax=datetime.now(), color='blue')
 

@@ -113,10 +113,10 @@ if callsign:
         st.error("Invalid callsign or data not found.")
 
 with st.expander("What is wen-goat?", icon="ℹ️"):
-    st.write('''
+    st.markdown('''
         A tool that analysis your SOTA (Summits on the Air) account
-        and predicts the date and required time to reach Mountaingoat status.
-        1000 activator points is the first milestone and rewared with a 🐐 trophy.
+        and predicts the date and required time to reach Mountain Goat status.
+        1000 activator points is the first milestone and rewarded with a 🐐 trophy.
         One needs to have logged at least 2 activations in the database for the tool to work.
-        Tool desigened by GM5ALX and contributors.
+        Tool designed by [GM5ALX](https://gm5alx.uk) and [contributors](https://github.com/alexjj/wen-goat/graphs/contributors).
     ''')

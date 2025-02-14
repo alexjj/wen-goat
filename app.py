@@ -75,6 +75,8 @@ def plot_progress(data, avg_points_per_week, target_points):
     st.write(f"At your current rate you'll reach {target_points} points by {linear_goat_date.strftime('%d %B %Y')}. Keep climbing! 🥾")
     st.write(f"At your selected rate you'll reach {target_points} points by {goal_date.strftime('%d %B %Y')}, or {days_remaining} days away. Keep climbing! 🥾")
 
+# MAIN
+
 callsign = st.text_input("Enter your callsign:").upper()
 
 if callsign:
@@ -88,22 +90,33 @@ if callsign:
             next_target = ((total_points // 1000) + 1) * 1000
             goat_emojis = '🐐' * (next_target // 1000)
 
-            if next_target == 1000:
-                st.write(f"{callsign}, you have {total_points} points, only {next_target - total_points} to achieve Mountain Goat! 🐐")
-            else:
-                st.write(f"{callsign}, you have {total_points} points, only {next_target - total_points} to go to your next Mountain Goat! {goat_emojis}")
-            avg_points_per_week = st.number_input("Enter your expected average points per week:", min_value=0.0, value=5.0, format="%0.1f", step=0.1)
-            plot_progress(activations, avg_points_per_week, next_target)
+            with st.container(border=True): # Put it in a container
+                if next_target == 1000:
+                    st.write(f"{callsign}, you have {total_points} points, only {next_target - total_points} to achieve Mountain Goat! 🐐")
+                else:
+                    st.write(f"{callsign}, you have {total_points} points, only {next_target - total_points} to go to your next Mountain Goat! {goat_emojis}")
+                avg_points_per_week = st.number_input("Enter your expected average points per week:", min_value=0.0, value=5.0, format="%0.1f", step=0.1)
+                plot_progress(activations, avg_points_per_week, next_target)
 
-            st.subheader("Want goat now 🏔️")
-            target_date = st.date_input("Select your target date to reach the next goat:", format="DD/MM/YYYY", value=None, min_value="today")
-            if target_date:
-                today = datetime.now().date()
-                weeks_remaining = max((target_date - today).days / 7, 1)
-                points_needed = next_target - total_points
-                required_points_per_week = points_needed / weeks_remaining
-                st.write(f"You need to earn {required_points_per_week:.1f} points per week to reach {next_target} points by {target_date.strftime('%d %B %Y')}. Better get a move on!")
+            with st.container(border=True): # Put it in a container
+                st.subheader("Want goat now 🏔️")
+                target_date = st.date_input("Select your target date to reach the next goat:", format="DD/MM/YYYY", value=None, min_value="today")
+                if target_date:
+                    today = datetime.now().date()
+                    weeks_remaining = max((target_date - today).days / 7, 1)
+                    points_needed = next_target - total_points
+                    required_points_per_week = points_needed / weeks_remaining
+                    st.write(f"You need to earn {required_points_per_week:.1f} points per week to reach {next_target} points by {target_date.strftime('%d %B %Y')}. Better get a move on!")
         else:
             st.error("No activation data found.")
     else:
         st.error("Invalid callsign or data not found.")
+
+with st.expander("What is wen-goat?", icon="ℹ️"):
+    st.write('''
+        A tool that analysis your SOTA (Summits on the Air) account
+        and predicts the date and required time to reach Mountaingoat status.
+        1000 activator points is the first milestone and rewared with a 🐐 trophy.
+        One needs to have logged at least 2 activations in the database for the tool to work.
+        Tool desigened by GM5ALX and contributors.
+    ''')

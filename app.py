@@ -15,7 +15,6 @@ def fetch_user_id(callsign):
         return response.json().get('userId')
     return None
 
-@st.cache_data
 def fetch_activations(user_id):
     url = f"https://api-db.sota.org.uk/admin/activator_log_by_id?year=all&id={user_id}"
     response = requests.get(url)

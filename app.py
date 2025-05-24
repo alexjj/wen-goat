@@ -37,20 +37,25 @@ def plot_progress(data, avg_points_per_week, target_points):
     last_date = df['ActivationDate'].iloc[-1]
     last_total = df['CumulativePoints'].iloc[-1]
 
-    weeks_of_activating = (last_date-first_date).days//7
+    weeks_of_activating = max((last_date - first_date).days // 7, 1)
     avg_points_per_week_calc = last_total / weeks_of_activating
 
-    weeks_needed = max((target_points - last_total) / avg_points_per_week, 0)
-    goal_date = last_date + timedelta(weeks=weeks_needed)
-    future_dates = pd.date_range(start=datetime.now(), periods=int(weeks_needed) + 1, freq='W')
+    max_weeks_threshold = 5200  # ~100 years
+    weeks_needed_input = max((target_points - last_total) / avg_points_per_week, 0)
+    weeks_needed_input = min(weeks_needed_input, max_weeks_threshold)
+
+    goal_date = last_date + timedelta(weeks=weeks_needed_input)
+    future_dates = pd.date_range(start=datetime.now(), periods=int(weeks_needed_input) + 1, freq='W')
     future_points = [last_total + avg_points_per_week * i for i in range(len(future_dates))]
     plt.plot(future_dates, future_points, linestyle='--', color='red', label='Planned Progress')
 
-    weeks_needed = max((target_points - last_total) / avg_points_per_week_calc, 0)
-    linear_goat_date = last_date + timedelta(weeks=weeks_needed)
-    future_dates = pd.date_range(start=datetime.now(), periods=int(weeks_needed) + 1, freq='W')
-    future_points = [last_total + avg_points_per_week_calc * i for i in range(len(future_dates))]
-    plt.plot(future_dates, future_points, linestyle=':', color='orange', label='Projected Progress (linear)')
+    weeks_needed_linear = max((target_points - last_total) / avg_points_per_week_calc, 0)
+    weeks_needed_linear = min(weeks_needed_linear, max_weeks_threshold)
+    linear_goat_date = last_date + timedelta(weeks=weeks_needed_linear)
+    future_dates_linear = pd.date_range(start=datetime.now(), periods=int(weeks_needed_linear) + 1, freq='W')
+    future_points_linear = [last_total + avg_points_per_week_calc * i for i in range(len(future_dates_linear))]
+    plt.plot(future_dates_linear, future_points_linear, linestyle=':', color='orange', label='Projected Progress (linear)')
+
 
     # Connect last_date of activation with nowdate
     plt.hlines(y=last_total,xmin=last_date,xmax=datetime.now(), color='blue')
